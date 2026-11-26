@@ -8,34 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const microservices_1 = require("@nestjs/microservices");
-const usuarios_controller_1 = require("./usuarios.controller");
+const usuarios_module_1 = require("./modulos/ms-usuarios/usuarios.module");
+const ms_clientes_module_1 = require("./modulos/ms-clientes/ms-clientes.module");
+const app_controller_1 = require("./app.controller");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({
-                isGlobal: true,
-            }),
-            microservices_1.ClientsModule.registerAsync([
-                {
-                    name: 'USUARIOS_CLIENT',
-                    imports: [config_1.ConfigModule],
-                    inject: [config_1.ConfigService],
-                    useFactory: (config) => ({
-                        transport: microservices_1.Transport.TCP,
-                        options: {
-                            host: config.get('USUARIOS_HOST', '127.0.0.1'),
-                            port: Number(config.get('USUARIOS_PORT', '3001')),
-                        },
-                    }),
-                },
-            ]),
+            usuarios_module_1.UsuariosModule,
+            ms_clientes_module_1.ClientesModule
         ],
-        controllers: [usuarios_controller_1.UsuariosController],
+        controllers: [app_controller_1.AppController],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
